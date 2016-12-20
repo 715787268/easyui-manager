@@ -57,22 +57,207 @@ easyui后台管理系统
         <!-- Hack：确保commons-logging的jar包不被引入，否则将和jcl-over-slf4j冲突 -->
         <dependency>
             <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.1.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <!-- slf4j的实现：logback，用来取代log4j。更快、更强！ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <artifactId>redis</artifactId>
+        <groupId>com</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>easyui</artifactId>
+    <packaging>war</packaging>
+    <name>easyui Maven Webapp</name>
+    <url>http://maven.apache.org</url>
+    <properties>
+        <!-- spring版本号 -->
+        <spring.version>4.2.5.RELEASE</spring.version>
+        <!-- mybatis版本号 -->
+        <mybatis.version>3.2.6</mybatis.version>
+        <!-- log4j日志文件管理包版本 -->
+        <slf4j.version>1.7.7</slf4j.version>
+        <log4j.version>1.2.17</log4j.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
         <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>0.9.24</version>
-            <scope>runtime</scope>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- spring核心包 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-oxm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.5.4</version>
+        </dependency>
+        <!-- mybatis核心包 -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>${mybatis.version}</version>
+        </dependency>
+        <!-- mybatis/spring包 -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+        <!-- 导入java ee jar 包 -->
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <scope>provided</scope>
+            <version>7.0</version>
+        </dependency>
+        <!-- pagehelper分页 -->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>4.1.3</version>
+        </dependency>
+        <!-- 导入Mysql数据库链接jar包 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.30</version>
+        </dependency>
+        <!-- 导入dbcp的jar包，用来在applicationContext.xml中配置数据库 -->
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+        <!-- JSTL标签类 -->
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <!-- 日志文件管理包 -->
+        <!-- log start -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+
+
+        <!-- 格式化对象，方便输出日志 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <!-- log end -->
+
+        <!-- 上传组件包 -->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.9</version>
         </dependency>
     </dependencies>
-  <build>
-    <finalName>redis</finalName>
-  </build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                    <encoding>UTF8</encoding>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <server>tomcat7</server>
+                    <port>9999</port>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
+
 
 
 > jdbc.properties
@@ -577,4 +762,558 @@ public class IServiceImpl implements IService
 
 </mapper>
 
+> UserDao.xml
 
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zui.dao.UserDao">
+    <!-- 自定义返回结果集 -->
+    <!--<resulltType id="userMap" type="UserBean">-->
+        <!--<id property="id" column="id" javaType="java.lang.Integer"></id>-->
+        <!--<result property="username" column="username" javaType="java.lang.String"></result>-->
+        <!--<result property="password" column="password" javaType="java.lang.String"></result>-->
+        <!--<result property="account" column="account" javaType="java.lang.Double"></result>-->
+    <!--</resulltType>-->
+    <!--<resulltType id="userMap" type="User"></resulltType>-->
+    <!--//查询-->
+    <!--public User getUserById(String id);-->
+    <select id="getUserById" resultType="User" parameterType="java.lang.String">
+        select * from t_user where id=#{id}
+    </select>
+    <!--//查询全部-->
+    <!--public List<User> getAllUser();-->
+    <select id="getAllUser" resultType="User">
+        select * from t_user
+    </select>
+    <!--//分页查询-->
+    <!--public List<User> query();-->
+    <select id="query" resultType="User">
+        select * from t_user
+    </select>
+    <!--//增加-->
+    <!--public void addUser(User user);-->
+    <insert id="addUser" parameterType="User">
+        insert into t_user values(#{id},#{username},#{password})
+    </insert>
+    <!--//修改-->
+    <!--public void updateUser(User user);-->
+    <update id="updateUser" parameterType="User">
+        update t_user set username=#{username},password=#{password} where id=#{id}
+    </update>
+    <!--//删除-->
+    <!--public void removeUser(User user);-->
+    <delete id="removeUser" parameterType="User">
+        delete t_user where id=#{id}
+    </delete>
+    <!--//根据id删除-->
+    <!--public void removeUserById(String id);-->
+    <delete id="removeUserById" parameterType="java.lang.String">
+        delete t_user where id=#{id}
+    </delete>
+
+    <!--//批量删除-->
+    <!--public void batchRemoveUser(List<String> userIds);-->
+    <delete id="batchRemoveUser" parameterType="java.util.List">
+        delete t_user where id in
+        <foreach collection="userIds" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--//批量添加-->
+    <!--public void batchAddUser(List<User> userList);-->
+    <insert id="batchAddUser"  parameterType="java.util.List">
+        insert into t_user
+        <foreach collection="userLisr" item="user" separator=",">
+            <if test="id = null">
+                (uuid(),#{username},#{password})
+            </if>
+            <if test="id != null">
+                (#{id},#{username},#{password})
+            </if>
+        </foreach>
+    </insert>
+
+    <!--&lt;!&ndash; 批量操作和foreach标签 &ndash;&gt;-->
+
+    <!--<insert id="batchInsertUser" parameterType="java.util.List">-->
+        <!--insert into t_user values-->
+        <!--<foreach collection="users" item="users" separator=",">-->
+            <!--(null,#{users.username},#{users.password},#{users.account})-->
+        <!--</foreach>-->
+    <!--</insert>-->
+
+
+    <!--<delete id="batchDeleteUser">-->
+        <!--delete from t_user where id in (-->
+        <!--<foreach collection="list" item="list" separator=",">-->
+            <!--#{id}-->
+        <!--</foreach>-->
+        <!--)-->
+    <!--</delete>-->
+
+    <!--&lt;!&ndash;collection 为用于遍历的元素（必选），支持数组、List、Set  &ndash;&gt;-->
+    <!--&lt;!&ndash; item 表示集合中每一个元素进行迭代时的别名. &ndash;&gt;-->
+    <!--&lt;!&ndash;separator表示在每次进行迭代之间以什么符号作为分隔 符.  &ndash;&gt;-->
+
+    <!--&lt;!&ndash;#在生成SQL时，对于字符类型参数，会拼装引号-->
+         <!--$在生成SQL时，不会拼装引号，可用于order by之类的参数拼装-->
+      <!--&ndash;&gt;-->
+    <!--<select id="pagerUser" parameterType="java.util.Map" resulltType="userMap">-->
+        <!--select * from t_user where 1=1-->
+        <!--<if test="username!=null">-->
+            <!--and username like '%${username}%'-->
+        <!--</if>-->
+        <!--limit ${index},${pageSize}-->
+    <!--</select>-->
+
+    <!--<select id="countUser" parameterType="java.util.Map" resultType="int">-->
+        <!--select count(*) from t_user where 1=1-->
+        <!--<if test="username != null">-->
+            <!--and username like '%${username}%'-->
+        <!--</if>-->
+    <!--</select>-->
+
+</mapper>
+
+> UserDao.java
+
+package com.zui.dao;
+
+import com.zui.beans.User;
+
+import java.util.List;
+import java.util.Map;
+
+
+public interface UserDao
+{
+    //查询
+    public User getUserById(String id);
+    //查询全部
+    public List<User> getAllUser();
+    //分页查询
+    public List<User> query();
+
+    //增加
+    public void addUser(User user);
+    //修改
+    public void updateUser(User user);
+    //删除
+    public void removeUser(User user);
+    //根据id删除
+    public void removeUserById(String id);
+
+    //批量删除
+    public void batchRemoveUser(List<String> userIds);
+    //批量添加
+    public void batchAddUser(List<User> userList);
+}
+
+> UserController.java
+
+package com.zui.controller;
+
+import com.zui.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+
+
+@Controller
+@RequestMapping("/user/")
+public class UserController
+{
+
+    @Autowired
+    private UserService userService;
+
+    @ResponseBody
+    @RequestMapping("remove")
+    public void removeUser(){
+
+    }
+
+    @ResponseBody
+    @RequestMapping("query")
+    public Map<String,Object> getUserByPage(HttpServletRequest request){
+        //当前页
+        int pageNo=Integer.parseInt(request.getParameter("page"));
+        //每页条数
+        int pageSize=Integer.parseInt(request.getParameter("rows"));
+        return userService.query(pageNo,pageSize);
+    }
+
+}
+
+> UserService.java
+
+package com.zui.service;
+
+import com.zui.beans.User;
+
+import java.util.List;
+import java.util.Map;
+
+
+public interface UserService
+{
+    //id查询
+    public User getUserById(String id);
+    //查询全部
+    public List<User> getAllUser();
+    //分页查询
+    public Map<String,Object> query(Integer pageNo, Integer pageSize);
+
+    //增加
+    public void addUser(User user);
+    //修改
+    public void updateUser(User user);
+    //删除
+    public void removeUser(User user);
+    //根据id删除
+    public void removeUserById(String id);
+
+    //批量删除
+    public void batchRemoveUser(List<String> userIds);
+    //批量添加
+    public void batchAddUser(List<User> userList);
+
+}
+
+> UserServiceImpl.java
+
+package com.zui.service;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.zui.beans.User;
+import com.zui.dao.UserDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Service
+public class UserServiceImpl implements UserService
+{
+    @Autowired
+    private UserDao userDao;
+
+
+    @Override
+    public User getUserById(String id)
+    {
+       return userDao.getUserById(id);
+    }
+
+    @Override
+    public List<User> getAllUser()
+    {
+        return userDao.getAllUser();
+    }
+
+    @Override
+    public Map<String, Object> query(Integer pageNo, Integer pageSize)
+    {
+        pageNo = pageNo == null ? 1 : pageNo;
+        pageSize = pageSize == null ? 10 : pageSize;
+        PageHelper.startPage(pageNo, pageSize);
+        List<User> list = userDao.query();
+        //用PageInfo对结果进行包装
+        PageInfo<User> page = new PageInfo<User>(list);
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("total", page.getTotal());
+        map.put("rows", page.getList());
+        return map;
+    }
+
+    @Override
+    public void addUser(User user)
+    {
+        userDao.addUser(user);
+    }
+
+    @Override
+    public void updateUser(User user)
+    {
+        userDao.updateUser(user);
+    }
+
+    @Override
+    public void removeUser(User user)
+    {
+        userDao.removeUser(user);
+    }
+
+    @Override
+    public void removeUserById(String id)
+    {
+        userDao.removeUserById(id);
+    }
+
+    @Override
+    public void batchRemoveUser(List<String> userIds)
+    {
+        userDao.batchRemoveUser(userIds);
+    }
+
+    @Override
+    public void batchAddUser(List<User> userList)
+    {
+        userDao.batchAddUser(userList);
+    }
+}
+
+> userManage.html
+
+<link rel="stylesheet" type="text/css" href="static/easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="static/easyui/themes/icon.css">
+<script type="text/javascript" src="static/easyui/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="static/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="static/easyui/locale/easyui-lang-zh_CN.js"></script>
+<script>
+		$(function(){
+		/**
+			$('#table_user').datagrid({
+				url: 'datagrid_user.json',
+				title: '用户记录',
+				width: 1050,
+				height: 400,
+				fitColumns: true,
+				nowrap:false,
+				columns:[[
+					{field:'userid',title:'用户id',width:80},
+					{field:'username',title:'用户名',width:120},
+					{field:'rolename',title:'用户角色',width:240,align:'left'}
+				]]
+			});*/
+
+			 $('#list_data').datagrid({
+                title:'应用系统列表',
+                iconCls:'icon-edit',//图标
+                width: 700,
+                height: 'auto',
+                nowrap: false,
+                striped: true,
+                border: true,
+                collapsible:false,//是否可折叠的
+                fit: true,//自动大小
+                url:'user/query',
+                //sortName: 'code',
+                //sortOrder: 'desc',
+                remoteSort:false,
+                idField:'fldId',
+                singleSelect:false,//是否单选
+                pagination:true,//分页控件
+                rownumbers:true,//行号
+                frozenColumns:[[
+                    {field:'ck',checkbox:true}
+                ]],
+                toolbar: [{
+                    text: '添加',
+                    iconCls: 'icon-add',
+                    handler: function() {
+                        openDialog("add_dialog","add");
+                    }
+                }, '-', {
+                    text: '修改',
+                    iconCls: 'icon-edit',
+                    handler: function() {
+                        openDialog("add_dialog","edit");
+                    }
+                }, '-',{
+                    text: '删除',
+                    iconCls: 'icon-remove',
+                    handler: function(){
+                        delAppInfo();
+                    }
+                }],
+            });
+            //设置分页控件
+            var p = $('#list_data').datagrid('getPager');
+            $(p).pagination({
+                pageSize: 10,//每页显示的记录条数，默认为10
+                pageList: [5,10,15],//可以设置每页记录条数的列表
+                beforePageText: '第',//页数文本框前显示的汉字
+                afterPageText: '页    共 {pages} 页',
+                displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录',
+                /*onBeforeRefresh:function(){
+                    $(this).pagination('loading');
+                    alert('before refresh');
+                    $(this).pagination('loaded');
+                }*/
+            });
+		});
+
+</script>
+<!--<div class="toolbar">-->
+    <!--&lt;!&ndash;<a id="btn_add" href="#" class="easyui-linkbutton l-btn" data-options="iconCls:'icon-add'"><span class="l-btn-left"><span class="l-btn-text icon-add" style="padding-left: 20px;">添加</span></span></a>&ndash;&gt;-->
+    <!--<a id="btn_add" href="#" class="easyui-linkbutton l-btn" data-options="iconCls:'icon-add'">添加</a>-->
+    <!--<a id="btn_remove" href="#" class="easyui-linkbutton l-btn" data-options="iconCls:'icon-remove'">删除</a>-->
+    <!--<a id="btn_save" href="#" class="easyui-linkbutton l-btn" data-options="iconCls:'icon-save'">保存</a>-->
+    <!--<a id="btn_reload" href="#" class="easyui-linkbutton l-btn" data-options="iconCls:'icon-reload'">刷新</a>-->
+    <!--<input type="text" id="input_search">-->
+    <!--<a id="btn_search" href="#" class="easyui-linkbutton l-btn" data-options="iconCls:'icon-search'">搜索</a>-->
+<!--</div>-->
+<!--<hr></hr>-->
+<!--<table id="table_user"></table>-->
+
+
+<table id="list_data" cellspacing="0" cellpadding="0">
+    <thead>
+    <tr>
+        <th field="id" width="100">id</th>
+        <th field="username" width="100">用户名</th>
+        <th field="password" width="100">角色列表</th>
+    </tr>
+    </thead>
+</table>
+
+> main.html
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Complex Layout - jQuery EasyUI Demo</title>
+	<link rel="stylesheet" type="text/css" href="static/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="static/easyui/themes/icon.css">
+	<script type="text/javascript" src="static/easyui/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="static/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="static/easyui/locale/easyui-lang-zh_CN.js"></script>
+	<script>
+		$(function(){
+			$('#tt2').datagrid({
+				title:'My Title',
+				iconCls:'icon-save',
+				width:600,
+				height:550,
+				nowrap: false,
+				striped: true,
+				fit: true,
+				url:'datagrid_data.json',
+				sortName: 'code',
+				sortOrder: 'desc',
+				idField:'code',
+				frozenColumns:[[
+	                {field:'ck',checkbox:true},
+	                {title:'code',field:'code',width:80,sortable:true}
+				]],
+				columns:[[
+			        {title:'Base Information',colspan:3},
+					{field:'opt',title:'Operation',width:100,align:'center', rowspan:2,
+						formatter:function(value,rec){
+							return '<span style="color:red">Edit Delete</span>';
+						}
+					}
+				],[
+					{field:'name',title:'Name',width:120},
+					{field:'addr',title:'Address',width:120,rowspan:2,sortable:true},
+					{field:'col4',title:'Col41',width:150,rowspan:2}
+				]],
+				pagination:true,
+				rownumbers:true
+			});
+		});
+	</script>
+</head>
+<body class="easyui-layout">
+	<div data-options="region:'north',split:true" title="North Title" style="height:100px;padding:10px;">
+		<p>The north content.</p>
+	</div>
+	<div data-options="region:'south',split:true" title="South Title" style="height:100px;padding:10px;background:#efefef;">
+		<div class="easyui-layout" data-options="fit:true" style="background:#ccc;">
+			<div data-options="region:'center'">sub center</div>
+			<div data-options="region:'east',split:true" style="width:200px;">sub center</div>
+		</div>
+	</div>
+	<div data-options="region:'east',iconCls:'icon-reload',split:true" title="Tree Menu" style="width:180px;">
+		<ul class="easyui-tree" data-options="url:'tree_data.json'"></ul>
+	</div>
+	<div data-options="region:'west',split:true" title="West Menu" style="width:150px;padding1:1px;overflow:hidden;">
+		<div class="easyui-accordion" data-options="fit:true,border:false">
+            <style>
+                #sys_mng li{margin-top:5px}
+            </style>
+			<div id="sys_mng" title="系统管理" style="padding:10px;overflow:auto;">
+                <ul class="easyui-tree">
+                    <li id="user_mng">
+                        <span>用户管理</span>
+                    </li>
+                    <li>
+                        <span>角色管理</span>
+                    </li>
+                    <li>
+                        <span>权限管理</span>
+                    </li>
+                    <li>
+                        <span>菜单管理</span>
+                    </li>
+                </ul>
+			</div>
+			<div title="Title2" data-options="selected:true" style="padding:10px;">
+			</div>
+			<div title="Title3" style="padding:10px">
+			</div>
+		</div>
+	</div>
+	<div data-options="region:'center'" title="Main Title" style="overflow:hidden;">
+		<div id="div_tabs" class="easyui-tabs" data-options="fit:true,border:false">
+			<div title="Tab1" style="padding:20px;overflow:hidden;">
+
+			</div>
+			<div title="Tab2" data-options="closable:true" style="padding:20px;"></div>
+			<div title="Tab3" data-options="iconCls:'icon-reload',closable:true" style="overflow:hidden;padding:5px;">
+                <div class="toolbar">
+                    <a id="add" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加</a>
+                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">删除</a>
+                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-save'">保存</a>
+                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">搜索</a>
+                </div>
+				<table id="tt2"></table>
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+    $(function(){
+        //页面加载
+        loadUI();
+        //事件监听
+        registerEvent();
+    });
+
+    function loadUI(){
+
+    }
+
+    function registerEvent(){
+        $("div[node-id='user_mng']").bind("click",function(){
+            addTab("用户管理",'userManage.html');
+        });
+    }
+
+    //添加tab
+    function addTab(title, url){
+        if ($('#div_tabs').tabs('exists', title)){
+                $('#div_tabs').tabs('select', title);
+        } else {
+            var content = '<iframe scrolling="auto" frameborder="0"  src="'+url+'" style="width:100%;height:100%;"></iframe>';
+            $('#div_tabs').tabs('add',{
+                title:title,
+                content:content,
+                closable:true
+            });
+        }
+    }
+
+</script>
+</html>
